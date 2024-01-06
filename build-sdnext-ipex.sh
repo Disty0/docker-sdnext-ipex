@@ -2,7 +2,7 @@
 
 if [[ -z "${SDNEXT_DOCKER_ROOT_FOLDER}" ]]
 then
-    SDNEXT_DOCKER_ROOT_FOLDER="~/sdnext"
+    SDNEXT_DOCKER_ROOT_FOLDER=~/sdnext
 fi
 
 sudo docker stop sdnext-ipex
