@@ -38,7 +38,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN echo '#!/bin/bash\ngit status || git clone https://github.com/vladmandic/automatic.git .\n./webui.sh "$@"' | tee /bin/startup.sh
 RUN chmod 755 /bin/startup.sh
 
-VOLUME [ "/deps" ]
+VOLUME [ "/python" ]
 VOLUME [ "/sdnext" ]
 VOLUME [ "/root/.cache/huggingface" ]
 
