@@ -2,6 +2,7 @@ FROM ubuntu:jammy
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends --fix-missing \
+    build-essential \
     ca-certificates \
     wget \
     gpg \
@@ -21,6 +22,7 @@ RUN apt-get install -y --no-install-recommends --fix-missing \
 RUN apt-get update && apt-get install -y --no-install-recommends --fix-missing \
     python3.10 \
     python3-pip \
+    python3-dev \
     python3-venv
 
 RUN pip --no-cache-dir install --upgrade \
