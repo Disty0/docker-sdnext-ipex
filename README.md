@@ -19,4 +19,4 @@ sudo docker start -i sdnext-ipex
 
 # Environment variables:
 Use `SDNEXT_DOCKER_ROOT_FOLDER` if you want to specify a folder for the SDNext files.  
-Use `DISABLE_IPEXRUN` to disable ipexrun.  
+Use `IPEXRUN=True` to use ipexrun.  
