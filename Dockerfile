@@ -18,22 +18,25 @@ RUN apt-get install -y --no-install-recommends --fix-missing \
     libze-intel-gpu1=24.39.31294.20-1032~24.04 \
     libze1=1.17.44.0-1022~24.04
 
-RUN add-apt-repository ppa:deadsnakes/ppa -y && apt-get update
-RUN apt-get install -y --no-install-recommends --fix-missing \
-    python3.11 \
-    python3.11-dev \
-    python3.11-venv \
-    python3-pip
-
 RUN apt-get install -y --no-install-recommends --fix-missing \
     libgl1 \
     libglib2.0-0 \
-    libgomp1 \
-    libjemalloc-dev
+    libgomp1
+
+ENV PYTHON=python3.11
+RUN add-apt-repository ppa:deadsnakes/ppa -y && apt-get update
+RUN apt-get install -y --no-install-recommends --fix-missing \
+    $PYTHON \
+    $PYTHON-dev \
+    $PYTHON-venv \
+    python3-pip
+
+# jemalloc is not required but it is highly recommended (also used with optional ipexrun)
+RUN apt-get install -y --no-install-recommends --fix-missing libjemalloc-dev
+ENV LD_PRELOAD=libjemalloc.so.2
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-RUN echo '#!/bin/bash\ngit status || git clone https://github.com/vladmandic/automatic.git .\n./webui.sh "$@"' | tee /bin/startup.sh
+RUN echo '#!/bin/bash\ngit status || git clone https://github.com/vladmandic/automatic.git .\n/app/webui.sh "$@"' | tee /bin/startup.sh
 RUN chmod 755 /bin/startup.sh
 
 VOLUME [ "/app" ]
@@ -41,9 +44,6 @@ VOLUME [ "/mnt/data" ]
 VOLUME [ "/mnt/models" ]
 VOLUME [ "/mnt/python" ]
 VOLUME [ "/root/.cache/huggingface" ]
-
-ENV PYTHON=python3.11
-ENV LD_PRELOAD=libjemalloc.so.2
 
 ENV SD_DOCKER=true
 ENV SD_DATADIR="/mnt/data"
