@@ -20,9 +20,9 @@ RUN apt-get install -y --no-install-recommends --fix-missing \
 
 RUN add-apt-repository ppa:deadsnakes/ppa -y && apt-get update
 RUN apt-get install -y --no-install-recommends --fix-missing \
-    python3.10 \
-    python3.10-dev \
-    python3.10-venv \
+    python3.11 \
+    python3.11-dev \
+    python3.11-venv \
     python3-pip
 
 RUN apt-get install -y --no-install-recommends --fix-missing \
@@ -36,16 +36,20 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN echo '#!/bin/bash\ngit status || git clone https://github.com/vladmandic/automatic.git .\n./webui.sh "$@"' | tee /bin/startup.sh
 RUN chmod 755 /bin/startup.sh
 
-VOLUME [ "/python" ]
-VOLUME [ "/sdnext" ]
+VOLUME [ "/app" ]
+VOLUME [ "/mnt/data" ]
+VOLUME [ "/mnt/models" ]
+VOLUME [ "/mnt/python" ]
 VOLUME [ "/root/.cache/huggingface" ]
 
+ENV PYTHON=python3.11
 ENV LD_PRELOAD=libjemalloc.so.2
 
 ENV SD_DOCKER=true
-ENV PYTHON=python3.10
-ENV venv_dir=/python/venv
+ENV SD_DATADIR="/mnt/data"
+ENV SD_MODELSDIR="/mnt/models"
+ENV venv_dir="/mnt/python/venv"
 
-WORKDIR /sdnext
- 
+WORKDIR /app
 ENTRYPOINT [ "startup.sh", "-f", "--use-ipex", "--listen" ]
+STOPSIGNAL SIGINT
