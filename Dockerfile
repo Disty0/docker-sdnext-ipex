@@ -45,6 +45,8 @@ VOLUME [ "/mnt/models" ]
 VOLUME [ "/mnt/python" ]
 VOLUME [ "/root/.cache/huggingface" ]
 
+ENV PIP_NO_CACHE_DIR=true
+ENV UV_NO_CACHE=true
 ENV SD_DOCKER=true
 ENV SD_DATADIR="/mnt/data"
 ENV SD_MODELSDIR="/mnt/models"
