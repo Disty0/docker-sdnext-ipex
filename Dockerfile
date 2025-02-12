@@ -23,12 +23,10 @@ RUN apt-get install -y --no-install-recommends --fix-missing \
     libglib2.0-0 \
     libgomp1
 
-ENV PYTHON=python3.11
-RUN add-apt-repository ppa:deadsnakes/ppa -y && apt-get update
 RUN apt-get install -y --no-install-recommends --fix-missing \
-    $PYTHON \
-    $PYTHON-dev \
-    $PYTHON-venv \
+    python3 \
+    python3-dev \
+    python3-venv \
     python3-pip
 
 # jemalloc is not required but it is highly recommended (also used with optional ipexrun)
